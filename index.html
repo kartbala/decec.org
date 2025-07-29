@@ -1,1 +1,436 @@
-<h1>Welcome to DECEC.org</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Down East Civic Engagement Corps (DECEC)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #113d6a;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #ffce53;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ffce53;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #113d6a 0%, #1e5a8a 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .header-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ffce53;
+        }
+
+        .header-content p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            padding: 60px 0;
+        }
+
+        section:nth-child(even) {
+            background-color: white;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            color: #113d6a;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            color: #113d6a;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .highlight-box {
+            background-color: #ffce53;
+            padding: 2rem;
+            border-radius: 10px;
+            color: #113d6a;
+        }
+
+        .highlight-box h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-box ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .highlight-box li {
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .highlight-box li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #113d6a;
+            font-weight: bold;
+        }
+
+        /* Team Section */
+        .team-member {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .team-member img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            object-fit: cover;
+            border: 4px solid #ffce53;
+        }
+
+        .team-member h3 {
+            color: #113d6a;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Partners Section */
+        .partners-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .partner-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .partner-card h3 {
+            color: #113d6a;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Get Involved Section */
+        .get-involved {
+            background: linear-gradient(135deg, #ffce53 0%, #f4b942 100%);
+            color: #113d6a;
+            text-align: center;
+        }
+
+        .get-involved h2 {
+            color: #113d6a;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #113d6a;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            margin-top: 2rem;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #0d2e52;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-info h3 {
+            color: #113d6a;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info a {
+            color: #113d6a;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .contact-info a:hover {
+            color: #ffce53;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #113d6a;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .header-content h1 {
+                font-size: 2rem;
+            }
+
+            .about-content,
+            .partners-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">DECEC</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#team">Our Team</a></li>
+                <li><a href="#partners">Partners</a></li>
+                <li><a href="#get-involved">Get Involved</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Down East Civic Engagement Corps</h1>
+                <p>Empowering Eastern North Carolina communities through innovative civic engagement and relational organizing</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>About DECEC</h2>
+                <p>Building civic capacity in low-income communities through trusted relationships and innovative engagement</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Our Mission</h3>
+                    <p>Down East Civic Engagement Corps is a new Eastern North Carolina-based nonprofit operating under the fiscal sponsorship of Goodnation. We're launching an innovative pilot program in the leadup to the 2025 municipal elections, working in partnership with Hub3 to test scalable models of relational organizing.</p>
+                    
+                    <p>Our approach centers on empowering trusted community messengers—our "Ambassadors"—who receive small financial incentives when they successfully engage their friends, family, and neighbors in positive civic action, both during and outside of election cycles.</p>
+                    
+                    <h3>Why This Matters</h3>
+                    <p>Research consistently shows that friend-to-friend outreach is significantly more effective than paid advertisements or canvassing by strangers. However, this relational approach has been difficult to scale. Our pilot addresses this challenge by combining relational trust with light-touch technology and thoughtful incentives.</p>
+                </div>
+                <div class="highlight-box">
+                    <h4>What We're Testing</h4>
+                    <ul>
+                        <li>Recruitment and retention of local community Ambassadors</li>
+                        <li>Impact of civic challenges on long-term participation</li>
+                        <li>Effective incentive design and data tracking systems</li>
+                        <li>Scalable models for organic network growth</li>
+                    </ul>
+                    <h4 style="margin-top: 1.5rem;">Pilot Timeline</h4>
+                    <p><strong>July - November 2025</strong><br>
+                    Focused on 2025 municipal elections with both electoral and non-electoral civic engagement activities</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Team</h2>
+                <p>Led by experienced civic engagement professionals committed to community empowerment</p>
+            </div>
+            <div class="team-member">
+                <img src="https://via.placeholder.com/200x200/113d6a/ffce53?text=MR" alt="W. Mondale Robinson">
+                <h3>W. Mondale Robinson</h3>
+                <p><strong>Executive Director</strong></p>
+                <p>W. Mondale Robinson currently serves as the youngest mayor of Enfield, North Carolina, his hometown city. He is the founder of the Black Male Voter Project, an initiative designed to increase the participation of Black men in electoral politics, and the former political director of Democracy for America, the progressive political action committee founded by former Democratic National Committee Chair Howard Dean.</p>
+                <p>Mayor Robinson brings deep experience in community organizing, electoral politics, and innovative civic engagement strategies to DECEC's mission of building long-term civic capacity in Eastern North Carolina communities.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section id="partners">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Partners</h2>
+                <p>Collaborating with leading organizations in civic technology and social impact</p>
+            </div>
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <h3>Hub3</h3>
+                    <p>Hub3 is a 501(c)(3) nonprofit that supports organizations in creating networks of community "ambassadors," who empower their family members, friends, and neighbors to build health, wealth, and power in marginalized communities.</p>
+                    <p>As elections approach, Hub3 helps organizations activate those ambassador networks to expand voter outreach and increase civic engagement. Their innovative platform provides the technological backbone for our pilot program, enabling us to track engagement, manage incentives, and scale relational organizing effectively.</p>
+                </div>
+                <div class="partner-card">
+                    <h3>Goodnation</h3>
+                    <p>Goodnation addresses the root causes of societal problems by empowering changemakers and driving meaningful social impact as a trusted fiscal sponsor and innovator.</p>
+                    <p>Through comprehensive fiscal sponsorship support, Goodnation enables visionary programs like DECEC to thrive. They develop and manage initiatives to address critical societal challenges and amplify collective impact. Through their fiscal sponsorship program, Goodnation has deployed over $66 million to help reform systems, protect the vulnerable, and solve our country's toughest challenges.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Involved Section -->
+    <section id="get-involved" class="get-involved">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get Involved</h2>
+                <p>Join us in pioneering innovative approaches to civic engagement in Eastern North Carolina</p>
+            </div>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">We are seeking early partners—both programmatic and financial—who want to co-design, test, and learn alongside us in this groundbreaking initiative.</p>
+                
+                <p style="font-size: 1.1rem; margin-bottom: 1rem;">Eastern North Carolina offers a unique opportunity with the 2025 municipal elections and 2026 Senate race, providing concentrated areas of low-propensity, low-income communities where we can explore this model in partnership with local community leaders and funders focused on equity and civic innovation.</p>
+                
+                <p style="font-size: 1.1rem; margin-bottom: 2rem;">If successful, this pilot could inform scalable strategies for increasing civic participation nationwide. Your support will help us build long-term civic capacity in communities that have been historically underrepresented in the electoral process.</p>
+                
+                <a href="#contact" class="cta-button">Partner With Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Contact Us</h2>
+                <p>Ready to support innovative civic engagement in Eastern North Carolina?</p>
+            </div>
+            <div class="contact-info">
+                <h3>Interested in supporting our work or becoming a community Ambassador?</h3>
+                <p style="margin: 1.5rem 0;">Get in touch with us to learn more about partnership opportunities, volunteer roles, and how you can help build civic capacity in Eastern North Carolina communities.</p>
+                <p>Email us at: <a href="mailto:info@decec.org">info@decec.org</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Down East Civic Engagement Corps (DECEC). All rights reserved.</p>
+            <p>Fiscally sponsored by Goodnation | In partnership with Hub3</p>
+        </div>
+    </footer>
+</body>
+</html>
