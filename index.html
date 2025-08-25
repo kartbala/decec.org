@@ -64,7 +64,7 @@
             color: #ffce53;
         }
 
-        .nav-links .donate-button {
+        .donate-button {
             background-color: #ffce53;
             color: #113d6a;
             padding: 0.75rem 1.5rem;
@@ -75,11 +75,15 @@
             transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
         }
 
-        .nav-links .donate-button:hover {
+        .donate-button:hover {
             background-color: #ffd76a;
             color: #113d6a;
             transform: scale(1.05);
             box-shadow: 0 0 15px rgba(255, 215, 106, 0.9);
+        }
+
+        .mobile-donate {
+            display: none;
         }
 
         /* Header */
@@ -296,6 +300,12 @@
                 display: none;
             }
 
+            .mobile-donate {
+                display: block;
+                font-size: 1.2rem;
+                padding: 1rem 1.8rem;
+            }
+
             .header-content h1 {
                 font-size: 2rem;
             }
@@ -325,6 +335,7 @@
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="https://donate.mazloweb.com/donate/YEbJAnaxVg1s8crvf2mXbc" class="donate-button" target="_blank" rel="noopener noreferrer">Donate</a></li>
             </ul>
+            <a href="https://donate.mazloweb.com/donate/YEbJAnaxVg1s8crvf2mXbc" class="donate-button mobile-donate" target="_blank" rel="noopener noreferrer">Donate</a>
         </div>
     </nav>
 
