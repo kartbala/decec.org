@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NC GOTV Web App PRD — Goals & Personas</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: #f4f5f8;
+            color: #1f2430;
+        }
+        header {
+            background: linear-gradient(135deg, #102d52, #1f4b7a);
+            color: #fdf2c0;
+            padding: 2.25rem 1.25rem 2rem;
+            text-align: center;
+        }
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 3rem;
+            background: white;
+            box-shadow: 0 18px 40px rgba(16, 45, 82, 0.08);
+        }
+        h1, h2, h3 {
+            font-family: "Merriweather", Georgia, serif;
+        }
+        h2 {
+            color: #102d52;
+            margin-top: 2.5rem;
+        }
+        h3 {
+            color: #1f4b7a;
+            margin-top: 1.75rem;
+        }
+        p {
+            margin: 1rem 0;
+        }
+        ul {
+            margin: 0.75rem 0 1.5rem 1.25rem;
+        }
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-top: 1.25rem;
+        }
+        nav a {
+            background: rgba(253, 242, 192, 0.12);
+            border: 1px solid rgba(253, 242, 192, 0.4);
+            color: #fff8d9;
+            padding: 0.45rem 1rem;
+            border-radius: 999px;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        nav a[aria-current="page"] {
+            background: #fdf2c0;
+            color: #102d52;
+        }
+        nav a:hover,
+        nav a:focus {
+            background: #fdf2c0;
+            color: #102d52;
+            outline: none;
+        }
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        .panel {
+            border-left: 4px solid #1f4b7a;
+            background: #f7f9ff;
+            padding: 1.25rem 1.5rem;
+            border-radius: 10px;
+        }
+        .panel h3 {
+            margin-top: 0;
+        }
+        .jobs-list li {
+            margin-bottom: 0.75rem;
+        }
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            gap: 1rem;
+        }
+        .footer-nav a {
+            color: #102d52;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .breadcrumbs {
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+        .breadcrumbs a {
+            color: #fdf2c0;
+            text-decoration: none;
+        }
+        @media (max-width: 720px) {
+            main {
+                margin: 0 1rem;
+            }
+            .footer-nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="breadcrumbs"><a href="../index.html">← Back to DECEC</a></div>
+        <h1>Goals, Non-Goals &amp; Personas</h1>
+        <p>Clarity on what the Halifax-first MVP will and won’t tackle, and the core jobs it must enable.</p>
+        <nav aria-label="PRD sections">
+            <a href="index.html">Overview</a>
+            <a href="goals-personas.html" aria-current="page">Goals &amp; Personas</a>
+            <a href="phase-details.html">Phase Details</a>
+            <a href="data-architecture.html">Data &amp; Architecture</a>
+            <a href="ux-metrics.html">UX, Metrics &amp; Risks</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Goals</h2>
+            <div class="grid">
+                <div class="panel">
+                    <h3>Find the Right People Fast</h3>
+                    <p>Enable fuzzy name search and intuitive filters so organizers can locate the correct voters or addresses using minimal input.</p>
+                </div>
+                <div class="panel">
+                    <h3>Minimize Data Friction</h3>
+                    <p>Deliver a no-training-required experience that is mobile-ready, supports keyboard navigation, and keeps high-contrast visuals at the forefront.</p>
+                </div>
+                <div class="panel">
+                    <h3>Export-Ready Outputs</h3>
+                    <p>Provide clean CSV and PDF outputs that volunteers can use immediately for canvassing and Election-Day operations.</p>
+                </div>
+                <div class="panel">
+                    <h3>Respect Privacy &amp; Compliance</h3>
+                    <p>Operate within North Carolina data-sharing rules, preserving auditability and privacy expectations.</p>
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2>Non-Goals for Phase 1</h2>
+            <ul>
+                <li>No bulk messaging or in-app dialer capabilities—exports are the only action surface.</li>
+                <li>No predictive or proprietary scores; the MVP relies on deterministic filters and history.</li>
+                <li>No multi-state support before Halifax County success and statewide readiness.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Personas</h2>
+            <div class="grid">
+                <div class="panel">
+                    <h3>County Organizer</h3>
+                    <p>Power user responsible for building filtered lists, assigning turf, and coordinating turnout operations.</p>
+                </div>
+                <div class="panel">
+                    <h3>Volunteer</h3>
+                    <p>Casual user looking up voter records or polling locations in the field, often on a mobile device.</p>
+                </div>
+                <div class="panel">
+                    <h3>Data Lead</h3>
+                    <p>Administrator who refreshes data weekly, validates quality, and ensures exports align with policy.</p>
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2>Core Jobs to Be Done</h2>
+            <ul class="jobs-list">
+                <li><strong>Target repeat voters:</strong> “I need everyone in Halifax who voted in 2020 but skipped 2022.”</li>
+                <li><strong>Surface polling logistics:</strong> “Give me a precinct list paired with the correct polling place address.” (Phase 2)</li>
+                <li><strong>Find likely unregistered households:</strong> “Show me addresses with no registered voter in this neighborhood.” (Phase 3)</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Phase 1 Scope Snapshot</h2>
+            <p>The MVP covers Halifax County with fuzzy search, robust filtering on voter-file and history fields, and exportable tables with accessibility built in. Subsequent phases build on this foundation to add precinct context, AddressNC insights, and action tooling.</p>
+        </section>
+        <section class="footer-nav">
+            <a href="index.html">← Back to Overview</a>
+            <a href="phase-details.html">Next: Phase Details →</a>
+        </section>
+    </main>
+</body>
+</html>

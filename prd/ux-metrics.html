@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NC GOTV Web App PRD — UX, Metrics & Risks</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: #f4fbf7;
+            color: #143022;
+        }
+        header {
+            background: linear-gradient(135deg, #0c3f2e, #1b6b4a);
+            color: #dcf7ea;
+            padding: 2.5rem 1.25rem 2rem;
+            text-align: center;
+        }
+        main {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 2.75rem 1.5rem 3.5rem;
+            background: white;
+            box-shadow: 0 20px 48px rgba(12, 63, 46, 0.12);
+        }
+        h1, h2, h3, h4 {
+            font-family: "Merriweather", Georgia, serif;
+        }
+        h2 {
+            color: #0c3f2e;
+            margin-top: 2.5rem;
+        }
+        h3 {
+            color: #1b6b4a;
+            margin-top: 1.75rem;
+        }
+        h4 {
+            color: #228259;
+            margin-top: 1.25rem;
+        }
+        p {
+            margin: 1rem 0;
+        }
+        ul {
+            margin: 0.75rem 0 1.5rem 1.25rem;
+        }
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        nav a {
+            background: rgba(220, 247, 234, 0.15);
+            border: 1px solid rgba(220, 247, 234, 0.4);
+            color: #dcf7ea;
+            padding: 0.5rem 1.1rem;
+            border-radius: 999px;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        nav a[aria-current="page"] {
+            background: #dcf7ea;
+            color: #0c3f2e;
+        }
+        nav a:hover,
+        nav a:focus {
+            background: #dcf7ea;
+            color: #0c3f2e;
+            outline: none;
+        }
+        .card {
+            border-left: 4px solid #1b6b4a;
+            background: #f0fff7;
+            padding: 1.25rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .risk {
+            border-left-color: #b45309;
+            background: #fff7ed;
+        }
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            gap: 1rem;
+        }
+        .footer-nav a {
+            color: #0c3f2e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .breadcrumbs {
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+        .breadcrumbs a {
+            color: #dcf7ea;
+            text-decoration: none;
+        }
+        @media (max-width: 720px) {
+            main {
+                margin: 0 1rem;
+            }
+            .footer-nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="breadcrumbs"><a href="../index.html">← Back to DECEC</a></div>
+        <h1>UX, Success Metrics &amp; Risk Mitigation</h1>
+        <p>Design principles, analytics, QA plans, and contingencies that guide delivery of the NC GOTV Web App.</p>
+        <nav aria-label="PRD sections">
+            <a href="index.html">Overview</a>
+            <a href="goals-personas.html">Goals &amp; Personas</a>
+            <a href="phase-details.html">Phase Details</a>
+            <a href="data-architecture.html">Data &amp; Architecture</a>
+            <a href="ux-metrics.html" aria-current="page">UX, Metrics &amp; Risks</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>UX Requirements</h2>
+            <div class="card">
+                <h3>Global Experience</h3>
+                <ul>
+                    <li>Persistent search bar with fast updates and filter chips.</li>
+                    <li>Keyboard-first shortcuts: <kbd>/</kbd> to focus search, <kbd>Enter</kbd> to submit, <kbd>Tab</kbd> to traverse, <kbd>?</kbd> for help.</li>
+                    <li>High-contrast toggle, adjustable font sizes, semantic headings, ARIA-tagged tables, and focus-visible styles.</li>
+                    <li>“Copy query as URL” affordance to share setups across organizers.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Phase-Specific UI</h3>
+                <ul>
+                    <li><strong>Phase 1:</strong> Unified page with search, filters, results grid, and export controls.</li>
+                    <li><strong>Phase 2:</strong> Precincts page featuring a map, polling-place card, and export buttons.</li>
+                    <li><strong>Phase 3:</strong> “Unregistered” tab that allows polygon selection and displays candidate addresses with confidence tiers.</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h2>Analytics &amp; Success Metrics</h2>
+            <div class="card">
+                <ul>
+                    <li><strong>Adoption:</strong> Weekly active users and queries per organizer.</li>
+                    <li><strong>Throughput:</strong> Median time from query to export under 60 seconds.</li>
+                    <li><strong>Coverage:</strong> Percentage of precincts with lists pulled before Election Day.</li>
+                    <li><strong>Impact Proxies:</strong> Early voters removed from GOTV lists, canvassed addresses, and registrations attributed to outreach.</li>
+                    <li><strong>Data Quality:</strong> Join failure rates under 0.5% and ≥70% high-confidence matches for AddressNC comparisons.</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h2>Validation &amp; QA</h2>
+            <div class="card">
+                <ul>
+                    <li>Golden datasets: 10 hand-checked searches, 10 filter recipes, 5 precinct exports, 3 unregistered polygons.</li>
+                    <li>Cross-check aggregated counts against raw voter files and precinct tallies.</li>
+                    <li>Monitor SLO dashboards for latency, error rates, job durations, and data freshness.</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h2>Risks &amp; Mitigations</h2>
+            <div class="card risk">
+                <ul>
+                    <li><strong>Post-election history lag:</strong> Display “data as of” timestamps and allow filtering by last update.</li>
+                    <li><strong>Precinct boundary churn:</strong> Store versioned geometries and label exports with precinct vintage.</li>
+                    <li><strong>Address granularity:</strong> Provide confidence tiers and solicit canvass feedback to refine matching.</li>
+                    <li><strong>Name search false positives:</strong> Expose similarity scores and include an exact-match toggle.</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h2>Rollout Plan</h2>
+            <div class="card">
+                <ol>
+                    <li><strong>Weeks 1–2:</strong> Ingest Halifax voter file and history; deliver Phase 1 search/filters; validate against golden sets.</li>
+                    <li><strong>Weeks 3–4:</strong> Layer in polling places and precinct exports for Phase 2.</li>
+                    <li><strong>Weeks 5–6:</strong> Integrate AddressNC, build matching pipeline, and ship Phase 3.</li>
+                    <li><strong>Week 7+:</strong> Expand statewide and prioritize Phase 4 action tooling.</li>
+                </ol>
+            </div>
+        </section>
+        <section>
+            <h2>Legal &amp; Compliance Notes</h2>
+            <div class="card">
+                <ul>
+                    <li>Use the NC voter file solely for political purposes, without inferring excluded sensitive fields.</li>
+                    <li>Clearly display data freshness timestamps and non-commercial usage terms.</li>
+                    <li>Offer “remove from export” toggles for data elements organizers deem sensitive.</li>
+                </ul>
+            </div>
+        </section>
+        <section class="footer-nav">
+            <a href="data-architecture.html">← Back to Data &amp; Architecture</a>
+            <a href="index.html">Return to Overview →</a>
+        </section>
+    </main>
+</body>
+</html>

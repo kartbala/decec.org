@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NC GOTV Web App PRD — Phase Details</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: #f6fafb;
+            color: #1a2735;
+        }
+        header {
+            background: #0e3a4d;
+            color: #e7f6ff;
+            padding: 2.5rem 1.25rem 2rem;
+            text-align: center;
+        }
+        main {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 3.5rem;
+            background: white;
+            box-shadow: 0 18px 45px rgba(14, 58, 77, 0.1);
+        }
+        h1, h2, h3, h4 {
+            font-family: "Merriweather", Georgia, serif;
+        }
+        h2 {
+            color: #0e3a4d;
+            margin-top: 2.5rem;
+        }
+        h3 {
+            color: #135a75;
+            margin-top: 2rem;
+        }
+        h4 {
+            color: #187a8f;
+            margin-top: 1.25rem;
+        }
+        p {
+            margin: 1rem 0;
+        }
+        ul {
+            margin: 0.75rem 0 1.5rem 1.25rem;
+        }
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        nav a {
+            background: rgba(231, 246, 255, 0.15);
+            border: 1px solid rgba(231, 246, 255, 0.4);
+            color: #e7f6ff;
+            padding: 0.5rem 1.1rem;
+            border-radius: 999px;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        nav a[aria-current="page"] {
+            background: #e7f6ff;
+            color: #0e3a4d;
+        }
+        nav a:hover,
+        nav a:focus {
+            background: #e7f6ff;
+            color: #0e3a4d;
+            outline: none;
+        }
+        .phase-card {
+            border-left: 4px solid #135a75;
+            background: #f2fbff;
+            padding: 1.25rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .acceptance {
+            background: #fff8f0;
+            border-left: 4px solid #c26a00;
+        }
+        .data-model {
+            background: #f7f4ff;
+            border-left: 4px solid #5a3cb4;
+        }
+        .api-callout {
+            background: #f0f8f6;
+            border-left: 4px solid #2e8563;
+        }
+        code, pre {
+            font-family: "Source Code Pro", monospace;
+            background: rgba(14, 58, 77, 0.08);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+        }
+        pre {
+            overflow-x: auto;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            gap: 1rem;
+        }
+        .footer-nav a {
+            color: #0e3a4d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .breadcrumbs {
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+        .breadcrumbs a {
+            color: #e7f6ff;
+            text-decoration: none;
+        }
+        @media (max-width: 720px) {
+            main {
+                margin: 0 1rem;
+            }
+            .footer-nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="breadcrumbs"><a href="../index.html">← Back to DECEC</a></div>
+        <h1>Phase Requirements</h1>
+        <p>Detailed scope, acceptance criteria, models, and APIs for each phase of the Halifax-first rollout.</p>
+        <nav aria-label="PRD sections">
+            <a href="index.html">Overview</a>
+            <a href="goals-personas.html">Goals &amp; Personas</a>
+            <a href="phase-details.html" aria-current="page">Phase Details</a>
+            <a href="data-architecture.html">Data &amp; Architecture</a>
+            <a href="ux-metrics.html">UX, Metrics &amp; Risks</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Phase 1 — MVP (Halifax County)</h2>
+            <div class="phase-card">
+                <h3>Scope</h3>
+                <ul>
+                    <li>Coverage limited to Halifax County across the voter file and voter history datasets.</li>
+                    <li>Fuzzy name search supporting typos, nickname variants, diacritics, and hyphenation.</li>
+                    <li>Composable filters for status, party, age band, race, gender, districts, precinct, and voter history participation patterns.</li>
+                    <li>Results table showing key voter attributes with row counts, paging, and CSV export.</li>
+                    <li>Performance goals: &lt;300&nbsp;ms server latency for typical queries, &lt;2&nbsp;s p95 total load.</li>
+                </ul>
+            </div>
+            <div class="phase-card acceptance">
+                <h3>Acceptance Criteria</h3>
+                <ul>
+                    <li>Fuzzy search returns intended records with Jaro–Winkler ≥ 0.88 or trigram similarity ≥ 0.3, ignoring accents and punctuation.</li>
+                    <li>Combined filters (e.g., Party=U, Age 18–25, voted in 2020 but not 2022) match validation counts.</li>
+                    <li>CSV exports include UTF-8 headers, handle up to 50k rows, and respect privacy banner and Terms link.</li>
+                    <li>Accessibility: WCAG 2.2 AA compliance including keyboard navigation, skip links, ARIA for tabular data, high-contrast toggle, and text scaling controls.</li>
+                </ul>
+            </div>
+            <div class="phase-card data-model">
+                <h3>Minimal Data Model</h3>
+                <h4>voter</h4>
+                <p>Primary key <code>ncid</code>; includes county and registration identifiers, name components, status, party, race, gender, year of birth, calculated age, residential and mailing addresses, precinct and district codes, and registration date.</p>
+                <h4>voter_history</h4>
+                <p>Event-level rows joined by <code>ncid</code>, capturing election identifiers, dates, voting method, county, precinct at vote time, and party at vote.</p>
+            </div>
+            <div class="phase-card api-callout">
+                <h3>Search &amp; Filtering Notes</h3>
+                <ul>
+                    <li>Primary engine: PostgreSQL with <code>pg_trgm</code>; Elastic/Lucene optional for later scale.</li>
+                    <li>Normalization: lowercase, remove punctuation/diacritics, collapse whitespace; optional nickname table.</li>
+                    <li>Ranking: <code>0.6 × name_sim + 0.2 × county_match + 0.2 × street_token_overlap</code>.</li>
+                    <li>Cursor-based pagination using <code>after=&lt;ncid, similarity&gt;</code> with default page size 100.</li>
+                </ul>
+                <h4>Key API Endpoints</h4>
+<pre><code>GET /v1/voters/search?q=&hellip;&amp;county=Halifax&amp;party=U&amp;age_min=18&amp;age_max=25&amp;voted_any_of=2020_G,2024_G&amp;not_voted_any_of=2022_G&amp;status=Active&amp;limit=100&amp;cursor=&hellip;
+GET /v1/voters/{ncid}
+GET /v1/exports?...</code></pre>
+            </div>
+            <div class="phase-card">
+                <h3>Data Refresh</h3>
+                <p>Weekly ingestion jobs pull the latest voter file and history, performing idempotent loads with slowly changing dimensions for status and precinct updates. Integrity checks compare counts and null rates against prior loads; freshness messaging reflects NCSBE update cadence.</p>
+            </div>
+        </section>
+        <section>
+            <h2>Phase 2 — Polling Places &amp; Precinct Lists</h2>
+            <div class="phase-card">
+                <h3>Scope</h3>
+                <ul>
+                    <li>Ingest election-specific polling place CSVs and early-voting site lists.</li>
+                    <li>Expose precinct filters with exports (CSV/PDF) including polling place headers.</li>
+                    <li>Provide lightweight precinct maps (vector tiles) with polling place pins and selectable precincts.</li>
+                </ul>
+            </div>
+            <div class="phase-card acceptance">
+                <h3>Acceptance Criteria</h3>
+                <ul>
+                    <li>Precinct to polling place mappings reflect selected election (e.g., 2025 Municipal).</li>
+                    <li>Choosing a precinct returns voters whose current precinct matches, noting file-date nuances.</li>
+                    <li>Early-vote sites list name, address, hours, and support exports.</li>
+                </ul>
+            </div>
+            <div class="phase-card data-model">
+                <h3>Data Model Additions</h3>
+                <ul>
+                    <li><strong>polling_place</strong>: election ID, county, precinct code, place name, address, optional geocodes.</li>
+                    <li><strong>early_vote_site</strong>: election ID, county, site name, address, schedule metadata.</li>
+                    <li><strong>precinct_geom</strong>: county, precinct code, geometry for mapping.</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h2>Phase 3 — Unregistered Voter Targeting</h2>
+            <div class="phase-card">
+                <h3>Scope</h3>
+                <ul>
+                    <li>Ingest AddressNC statewide address points and normalize them.</li>
+                    <li>Compute set differences between AddressNC and voter registration to flag likely unregistered households.</li>
+                    <li>Provide exports and walking-order views grouped by county, precinct, and custom areas.</li>
+                </ul>
+            </div>
+            <div class="phase-card acceptance">
+                <h3>Acceptance Criteria</h3>
+                <ul>
+                    <li>Precinct views show totals for all residential addresses, those with registered voters, and candidate addresses with none.</li>
+                    <li>Confidence tiers: High (exact suite match), Medium (street+number match with unknown unit), Low (fuzzy-only matches).</li>
+                    <li>Limitations are documented, including partial household registration and unit-level caveats.</li>
+                </ul>
+            </div>
+            <div class="phase-card data-model">
+                <h3>Matching &amp; Normalization</h3>
+                <ul>
+                    <li>Apply USPS-style canonicalization, directional normalization, and unit standardization.</li>
+                    <li>Join keys use <code>(house_number, street_normalized, unit_normalized, city, zip)</code> with Soundex fallback.</li>
+                    <li>Geospatial tolerance of 5–10 meters to resolve minor coordinate offsets.</li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h2>Phase 4 — Expanded Action Tooling</h2>
+            <div class="phase-card">
+                <h3>Backlog Priorities</h3>
+                <ol>
+                    <li>Canvass tooling: turf cutter, printable walk sheets, route optimization, mobile checklist.</li>
+                    <li>Early-vote tracking lenses with daily updates to remove voters from GOTV lists.</li>
+                    <li>Ballot cure workflows highlighting absentee issues.</li>
+                    <li>Contact exports for SMS/phone banks with duplicate suppression and language tags.</li>
+                    <li>Volunteer operations: assignments, progress counters, leaderboards.</li>
+                    <li>Micro-dashboards covering turnout by precinct, first-time voters, and more.</li>
+                    <li>Accessibility enhancements: multilingual UI, RTL support, high-contrast themes, font scaling.</li>
+                    <li>Data QA views: change logs, precinct churn reports.</li>
+                    <li>Role-based access, audit logs, scoped API keys.</li>
+                    <li>Statewide rollout after Halifax stability.</li>
+                </ol>
+            </div>
+        </section>
+        <section class="footer-nav">
+            <a href="goals-personas.html">← Back to Goals &amp; Personas</a>
+            <a href="data-architecture.html">Next: Data &amp; Architecture →</a>
+        </section>
+    </main>
+</body>
+</html>
