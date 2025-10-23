@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Howard Honors Housing Room Matching System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f2747 0%, #113d6a 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #113d6a;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            color: #113d6a;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .action-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .action-card h2 {
+            color: #113d6a;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .action-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #113d6a;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #0f2747;
+        }
+
+        .btn-secondary {
+            background: #ffce53;
+            color: #113d6a;
+        }
+
+        .btn-secondary:hover {
+            background: #f0c043;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .upload-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .upload-section h2 {
+            color: #113d6a;
+            margin-bottom: 20px;
+        }
+
+        .upload-group {
+            margin-bottom: 25px;
+        }
+
+        .upload-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .upload-group input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #113d6a;
+            border-radius: 6px;
+            background: #f8f9fa;
+        }
+
+        .upload-group .help-text {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+
+        .template-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .template-section h3 {
+            color: #113d6a;
+            margin-bottom: 15px;
+        }
+
+        .template-section code {
+            display: block;
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid,
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card .number {
+                font-size: 2rem;
+            }
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">&larr; Back to Main Site</a>
+
+        <div class="header">
+            <h1>Howard Honors Housing Room Matching System</h1>
+            <p>Automated priority-based room assignment for honors students</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Students Loaded</h3>
+                <div class="number" id="studentCount">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Rooms Available</h3>
+                <div class="number" id="roomCount">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Students Matched</h3>
+                <div class="number" id="matchedCount">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Students on Waitlist</h3>
+                <div class="number" id="waitlistCount">0</div>
+            </div>
+        </div>
+
+        <div class="upload-section">
+            <h2>Step 1: Upload Data</h2>
+
+            <div class="alert alert-info">
+                <strong>Instructions:</strong> Upload CSV files for students and rooms. The system will automatically prioritize students based on honors status, year, and account holds.
+            </div>
+
+            <div class="template-section">
+                <h3>Student CSV Format</h3>
+                <code>student_id,name,email,year,honors,has_hold
+HU001,John Doe,john.doe@howard.edu,freshman,yes,no
+HU002,Jane Smith,jane.smith@howard.edu,sophomore,yes,no</code>
+                <p class="help-text"><strong>Required columns:</strong> student_id, name, email, year (freshman/sophomore/junior/senior), honors (yes/no), has_hold (yes/no)</p>
+            </div>
+
+            <div class="template-section">
+                <h3>Room CSV Format</h3>
+                <code>building,room_number,capacity,floor,room_type
+Drew Hall,101,2,1,double
+Drew Hall,102,1,1,single</code>
+                <p class="help-text"><strong>Required columns:</strong> building, room_number, capacity, floor, room_type</p>
+            </div>
+
+            <div class="upload-group">
+                <label for="studentFile">Upload Student Data (CSV)</label>
+                <input type="file" id="studentFile" accept=".csv" />
+                <p class="help-text" id="studentFileStatus">No file selected</p>
+            </div>
+
+            <div class="upload-group">
+                <label for="roomFile">Upload Room Data (CSV)</label>
+                <input type="file" id="roomFile" accept=".csv" />
+                <p class="help-text" id="roomFileStatus">No file selected</p>
+            </div>
+
+            <button class="btn" onclick="loadData()">Load Data</button>
+            <button class="btn btn-secondary" onclick="downloadTemplates()">Download Templates</button>
+            <button class="btn btn-danger" onclick="clearData()">Clear All Data</button>
+        </div>
+
+        <div class="action-grid">
+            <div class="action-card">
+                <h2>Run Matching Algorithm</h2>
+                <p>Execute the priority-based matching algorithm to assign rooms to students based on honors status, year, and account status.</p>
+                <button class="btn" onclick="runMatching()">Run Matching</button>
+            </div>
+
+            <div class="action-card">
+                <h2>View Results</h2>
+                <p>Review the matching results, see assigned rooms, and view the waitlist for students who couldn't be placed.</p>
+                <button class="btn" onclick="viewResults()">View Results</button>
+            </div>
+
+            <div class="action-card">
+                <h2>Export Results</h2>
+                <p>Download the matching results as CSV files for use in other systems or for record keeping.</p>
+                <button class="btn btn-secondary" onclick="exportResults()">Export Results</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize data from localStorage
+        function loadStats() {
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            const rooms = JSON.parse(localStorage.getItem('rooms') || '[]');
+            const matches = JSON.parse(localStorage.getItem('matches') || '[]');
+            const waitlist = JSON.parse(localStorage.getItem('waitlist') || '[]');
+
+            document.getElementById('studentCount').textContent = students.length;
+            document.getElementById('roomCount').textContent = rooms.filter(r => !r.assigned).length;
+            document.getElementById('matchedCount').textContent = matches.length;
+            document.getElementById('waitlistCount').textContent = waitlist.length;
+        }
+
+        // Load stats on page load
+        window.addEventListener('DOMContentLoaded', loadStats);
+
+        // Parse CSV file
+        function parseCSV(text) {
+            const lines = text.trim().split('\n');
+            const headers = lines[0].split(',').map(h => h.trim());
+            const data = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',').map(v => v.trim());
+                const obj = {};
+                headers.forEach((header, index) => {
+                    obj[header] = values[index];
+                });
+                data.push(obj);
+            }
+
+            return data;
+        }
+
+        // Load data from uploaded files
+        async function loadData() {
+            const studentFile = document.getElementById('studentFile').files[0];
+            const roomFile = document.getElementById('roomFile').files[0];
+
+            if (!studentFile || !roomFile) {
+                alert('Please upload both student and room CSV files.');
+                return;
+            }
+
+            try {
+                // Read student file
+                const studentText = await studentFile.text();
+                const students = parseCSV(studentText);
+                localStorage.setItem('students', JSON.stringify(students));
+
+                // Read room file
+                const roomText = await roomFile.text();
+                const rooms = parseCSV(roomText);
+                localStorage.setItem('rooms', JSON.stringify(rooms));
+
+                alert(`Successfully loaded ${students.length} students and ${rooms.length} rooms!`);
+                loadStats();
+            } catch (error) {
+                alert('Error loading files: ' + error.message);
+            }
+        }
+
+        // Download CSV templates
+        function downloadTemplates() {
+            // Student template
+            const studentCSV = `student_id,name,email,year,honors,has_hold
+HU001,John Doe,john.doe@howard.edu,freshman,yes,no
+HU002,Jane Smith,jane.smith@howard.edu,sophomore,yes,no
+HU003,Mike Johnson,mike.johnson@howard.edu,junior,yes,no
+HU004,Sarah Williams,sarah.williams@howard.edu,senior,yes,no
+HU005,Chris Brown,chris.brown@howard.edu,freshman,no,yes`;
+
+            const studentBlob = new Blob([studentCSV], { type: 'text/csv' });
+            const studentUrl = URL.createObjectURL(studentBlob);
+            const studentLink = document.createElement('a');
+            studentLink.href = studentUrl;
+            studentLink.download = 'student_template.csv';
+            studentLink.click();
+
+            // Room template
+            const roomCSV = `building,room_number,capacity,floor,room_type
+Drew Hall,101,2,1,double
+Drew Hall,102,1,1,single
+Drew Hall,103,2,1,double
+Bethune Hall,201,2,2,double
+Bethune Hall,202,3,2,triple`;
+
+            const roomBlob = new Blob([roomCSV], { type: 'text/csv' });
+            const roomUrl = URL.createObjectURL(roomBlob);
+            const roomLink = document.createElement('a');
+            roomLink.href = roomUrl;
+            roomLink.download = 'room_template.csv';
+            roomLink.click();
+
+            alert('Template files downloaded!');
+        }
+
+        // Clear all data
+        function clearData() {
+            if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
+                localStorage.clear();
+                loadStats();
+                document.getElementById('studentFile').value = '';
+                document.getElementById('roomFile').value = '';
+                document.getElementById('studentFileStatus').textContent = 'No file selected';
+                document.getElementById('roomFileStatus').textContent = 'No file selected';
+                alert('All data cleared!');
+            }
+        }
+
+        // Run matching algorithm
+        function runMatching() {
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            const rooms = JSON.parse(localStorage.getItem('rooms') || '[]');
+
+            if (students.length === 0 || rooms.length === 0) {
+                alert('Please load student and room data first.');
+                return;
+            }
+
+            window.location.href = 'matching.html';
+        }
+
+        // View results
+        function viewResults() {
+            const matches = JSON.parse(localStorage.getItem('matches') || '[]');
+
+            if (matches.length === 0) {
+                alert('No matching results found. Please run the matching algorithm first.');
+                return;
+            }
+
+            window.location.href = 'results.html';
+        }
+
+        // Export results
+        function exportResults() {
+            const matches = JSON.parse(localStorage.getItem('matches') || '[]');
+            const waitlist = JSON.parse(localStorage.getItem('waitlist') || '[]');
+
+            if (matches.length === 0) {
+                alert('No results to export. Please run the matching algorithm first.');
+                return;
+            }
+
+            // Export matches
+            const matchHeaders = 'student_id,name,year,honors,building,room_number,room_type\n';
+            const matchRows = matches.map(m =>
+                `${m.student_id},${m.name},${m.year},${m.honors},${m.building},${m.room_number},${m.room_type}`
+            ).join('\n');
+            const matchCSV = matchHeaders + matchRows;
+
+            const matchBlob = new Blob([matchCSV], { type: 'text/csv' });
+            const matchUrl = URL.createObjectURL(matchBlob);
+            const matchLink = document.createElement('a');
+            matchLink.href = matchUrl;
+            matchLink.download = 'room_assignments.csv';
+            matchLink.click();
+
+            // Export waitlist
+            if (waitlist.length > 0) {
+                const waitlistHeaders = 'student_id,name,year,honors,reason\n';
+                const waitlistRows = waitlist.map(w =>
+                    `${w.student_id},${w.name},${w.year},${w.honors},${w.reason}`
+                ).join('\n');
+                const waitlistCSV = waitlistHeaders + waitlistRows;
+
+                const waitlistBlob = new Blob([waitlistCSV], { type: 'text/csv' });
+                const waitlistUrl = URL.createObjectURL(waitlistBlob);
+                const waitlistLink = document.createElement('a');
+                waitlistLink.href = waitlistUrl;
+                waitlistLink.download = 'waitlist.csv';
+                waitlistLink.click();
+            }
+
+            alert('Results exported successfully!');
+        }
+
+        // Update file status when files are selected
+        document.getElementById('studentFile').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'No file selected';
+            document.getElementById('studentFileStatus').textContent = fileName;
+        });
+
+        document.getElementById('roomFile').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'No file selected';
+            document.getElementById('roomFileStatus').textContent = fileName;
+        });
+    </script>
+</body>
+</html>

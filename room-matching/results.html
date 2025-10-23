@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matching Results - Howard Housing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f2747 0%, #113d6a 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #113d6a;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            color: #113d6a;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .stat-card.success .number {
+            color: #28a745;
+        }
+
+        .stat-card.warning .number {
+            color: #ffc107;
+        }
+
+        .stat-card.danger .number {
+            color: #dc3545;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #113d6a;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: #666;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: #113d6a;
+        }
+
+        .tab.active {
+            color: #113d6a;
+            border-bottom-color: #113d6a;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: #f8f9fa;
+            color: #113d6a;
+            font-weight: 600;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+            color: #333;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-primary {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #113d6a;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            background: #0f2747;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            color: #113d6a;
+            margin-bottom: 10px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #113d6a;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">&larr; Back to Dashboard</a>
+
+        <div class="header">
+            <h1>Room Assignment Results</h1>
+            <p>Review matched students, waitlist, and excluded students</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card success">
+                <h3>Successfully Matched</h3>
+                <div class="number" id="matchedCount">0</div>
+            </div>
+            <div class="stat-card warning">
+                <h3>On Waitlist</h3>
+                <div class="number" id="waitlistCount">0</div>
+            </div>
+            <div class="stat-card danger">
+                <h3>Excluded (Holds)</h3>
+                <div class="number" id="excludedCount">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Processed</h3>
+                <div class="number" id="totalCount">0</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div style="margin-bottom: 20px;">
+                <button class="btn btn-success" onclick="exportResults()">Export All Results</button>
+                <button class="btn btn-secondary" onclick="window.location.href='index.html'">Back to Dashboard</button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('matched')">Room Assignments</button>
+                <button class="tab" onclick="switchTab('waitlist')">Waitlist</button>
+                <button class="tab" onclick="switchTab('excluded')">Excluded Students</button>
+            </div>
+
+            <!-- Matched Students Tab -->
+            <div id="matched-tab" class="tab-content active">
+                <input type="text" class="search-box" id="matchedSearch" placeholder="Search by name, student ID, building, or room..." onkeyup="filterTable('matchedTable', 'matchedSearch')">
+                <div class="table-container">
+                    <table id="matchedTable">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Year</th>
+                                <th>Email</th>
+                                <th>Building</th>
+                                <th>Room</th>
+                                <th>Room Type</th>
+                                <th>Floor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="matchedBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Waitlist Tab -->
+            <div id="waitlist-tab" class="tab-content">
+                <input type="text" class="search-box" id="waitlistSearch" placeholder="Search by name, student ID, or year..." onkeyup="filterTable('waitlistTable', 'waitlistSearch')">
+                <div class="table-container">
+                    <table id="waitlistTable">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Year</th>
+                                <th>Email</th>
+                                <th>Honors</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody id="waitlistBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Excluded Students Tab -->
+            <div id="excluded-tab" class="tab-content">
+                <input type="text" class="search-box" id="excludedSearch" placeholder="Search by name, student ID, or year..." onkeyup="filterTable('excludedTable', 'excludedSearch')">
+                <div class="table-container">
+                    <table id="excludedTable">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Year</th>
+                                <th>Email</th>
+                                <th>Honors</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody id="excludedBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadResults() {
+            const matches = JSON.parse(localStorage.getItem('matches') || '[]');
+            const waitlist = JSON.parse(localStorage.getItem('waitlist') || '[]');
+            const excluded = JSON.parse(localStorage.getItem('excluded') || '[]');
+
+            // Update stats
+            document.getElementById('matchedCount').textContent = matches.length;
+            document.getElementById('waitlistCount').textContent = waitlist.length;
+            document.getElementById('excludedCount').textContent = excluded.length;
+            document.getElementById('totalCount').textContent = matches.length + waitlist.length + excluded.length;
+
+            // Populate matched students table
+            const matchedBody = document.getElementById('matchedBody');
+            if (matches.length === 0) {
+                matchedBody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><h3>No matches found</h3><p>Run the matching algorithm first.</p></div></td></tr>';
+            } else {
+                matchedBody.innerHTML = matches.map(m => `
+                    <tr>
+                        <td>${m.student_id}</td>
+                        <td><strong>${m.name}</strong></td>
+                        <td><span class="badge badge-primary">${capitalizeFirst(m.year)}</span></td>
+                        <td>${m.email}</td>
+                        <td>${m.building}</td>
+                        <td><strong>${m.room_number}</strong></td>
+                        <td>${capitalizeFirst(m.room_type)}</td>
+                        <td>${m.floor}</td>
+                    </tr>
+                `).join('');
+            }
+
+            // Populate waitlist table
+            const waitlistBody = document.getElementById('waitlistBody');
+            if (waitlist.length === 0) {
+                waitlistBody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><h3>Waitlist is empty</h3><p>All eligible students have been matched!</p></div></td></tr>';
+            } else {
+                waitlistBody.innerHTML = waitlist.map(w => `
+                    <tr>
+                        <td>${w.student_id}</td>
+                        <td><strong>${w.name}</strong></td>
+                        <td><span class="badge badge-primary">${capitalizeFirst(w.year)}</span></td>
+                        <td>${w.email}</td>
+                        <td><span class="badge badge-success">${capitalizeFirst(w.honors)}</span></td>
+                        <td><span class="badge badge-warning">${w.reason}</span></td>
+                    </tr>
+                `).join('');
+            }
+
+            // Populate excluded students table
+            const excludedBody = document.getElementById('excludedBody');
+            if (excluded.length === 0) {
+                excludedBody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><h3>No excluded students</h3><p>No students have account holds.</p></div></td></tr>';
+            } else {
+                excludedBody.innerHTML = excluded.map(e => `
+                    <tr>
+                        <td>${e.student_id}</td>
+                        <td><strong>${e.name}</strong></td>
+                        <td><span class="badge badge-primary">${capitalizeFirst(e.year)}</span></td>
+                        <td>${e.email}</td>
+                        <td><span class="badge badge-success">${capitalizeFirst(e.honors)}</span></td>
+                        <td><span class="badge badge-danger">${e.reason}</span></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function capitalizeFirst(str) {
+            if (!str) return '';
+            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        }
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function filterTable(tableId, searchId) {
+            const searchValue = document.getElementById(searchId).value.toLowerCase();
+            const table = document.getElementById(tableId);
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                const text = row.textContent.toLowerCase();
+
+                if (text.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        }
+
+        function exportResults() {
+            const matches = JSON.parse(localStorage.getItem('matches') || '[]');
+            const waitlist = JSON.parse(localStorage.getItem('waitlist') || '[]');
+            const excluded = JSON.parse(localStorage.getItem('excluded') || '[]');
+
+            if (matches.length === 0) {
+                alert('No results to export. Please run the matching algorithm first.');
+                return;
+            }
+
+            // Export room assignments
+            const matchHeaders = 'student_id,name,email,year,honors,building,room_number,room_type,floor,capacity\n';
+            const matchRows = matches.map(m =>
+                `${m.student_id},${m.name},${m.email},${m.year},${m.honors},${m.building},${m.room_number},${m.room_type},${m.floor},${m.capacity}`
+            ).join('\n');
+            const matchCSV = matchHeaders + matchRows;
+
+            downloadCSV(matchCSV, 'room_assignments.csv');
+
+            // Export waitlist if not empty
+            if (waitlist.length > 0) {
+                const waitlistHeaders = 'student_id,name,email,year,honors,reason\n';
+                const waitlistRows = waitlist.map(w =>
+                    `${w.student_id},${w.name},${w.email},${w.year},${w.honors},${w.reason}`
+                ).join('\n');
+                const waitlistCSV = waitlistHeaders + waitlistRows;
+
+                downloadCSV(waitlistCSV, 'waitlist.csv');
+            }
+
+            // Export excluded students if not empty
+            if (excluded.length > 0) {
+                const excludedHeaders = 'student_id,name,email,year,honors,reason\n';
+                const excludedRows = excluded.map(e =>
+                    `${e.student_id},${e.name},${e.email},${e.year},${e.honors},${e.reason}`
+                ).join('\n');
+                const excludedCSV = excludedHeaders + excludedRows;
+
+                downloadCSV(excludedCSV, 'excluded_students.csv');
+            }
+
+            alert('Results exported successfully! Check your downloads folder.');
+        }
+
+        function downloadCSV(content, filename) {
+            const blob = new Blob([content], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Load results on page load
+        window.addEventListener('DOMContentLoaded', loadResults);
+    </script>
+</body>
+</html>

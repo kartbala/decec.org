@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running Matching Algorithm - Howard Housing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f2747 0%, #113d6a 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #113d6a;
+            margin-bottom: 20px;
+        }
+
+        .progress-section {
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #113d6a 0%, #1a5490 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .status-text {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .log-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .log-entry {
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .log-entry.success {
+            color: #28a745;
+        }
+
+        .log-entry.warning {
+            color: #ffc107;
+        }
+
+        .log-entry.error {
+            color: #dc3545;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .summary-card h3 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .summary-card .number {
+            color: #113d6a;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #113d6a;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #0f2747;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 20px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">&larr; Back to Dashboard</a>
+
+        <div class="card">
+            <h1>Running Matching Algorithm</h1>
+
+            <div class="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar">0%</div>
+                </div>
+                <div class="status-text" id="statusText">Initializing...</div>
+            </div>
+
+            <div class="summary-grid" id="summaryGrid" style="display: none;">
+                <div class="summary-card">
+                    <h3>Total Students</h3>
+                    <div class="number" id="totalStudents">0</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Successfully Matched</h3>
+                    <div class="number" id="matchedStudents">0</div>
+                </div>
+                <div class="summary-card">
+                    <h3>On Waitlist</h3>
+                    <div class="number" id="waitlistStudents">0</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Excluded (Holds)</h3>
+                    <div class="number" id="excludedStudents">0</div>
+                </div>
+            </div>
+
+            <div class="log-section" id="logSection">
+                <div class="log-entry">System initialized...</div>
+            </div>
+
+            <div id="completionSection" style="display: none;">
+                <div class="alert alert-success">
+                    <strong>Matching Complete!</strong> The room assignment process has finished successfully.
+                </div>
+                <button class="btn" onclick="window.location.href='results.html'">View Results</button>
+                <button class="btn" onclick="window.location.href='index.html'" style="margin-left: 10px; background: #6c757d;">Back to Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let logs = [];
+
+        function addLog(message, type = 'info') {
+            logs.push({ message, type, timestamp: new Date() });
+            const logSection = document.getElementById('logSection');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logSection.appendChild(entry);
+            logSection.scrollTop = logSection.scrollHeight;
+        }
+
+        function updateProgress(percent, status) {
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressBar').textContent = percent + '%';
+            document.getElementById('statusText').textContent = status;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function runMatchingAlgorithm() {
+            // Load data
+            updateProgress(10, 'Loading student and room data...');
+            await sleep(500);
+
+            const students = JSON.parse(localStorage.getItem('students') || '[]');
+            const rooms = JSON.parse(localStorage.getItem('rooms') || '[]');
+
+            addLog(`Loaded ${students.length} students and ${rooms.length} rooms`, 'success');
+
+            // Step 1: Filter out students with holds
+            updateProgress(20, 'Filtering students with account holds...');
+            await sleep(500);
+
+            const studentsWithHolds = students.filter(s => s.has_hold?.toLowerCase() === 'yes');
+            const eligibleStudents = students.filter(s => s.has_hold?.toLowerCase() !== 'yes');
+
+            addLog(`Excluded ${studentsWithHolds.length} students with account holds`, 'warning');
+            addLog(`${eligibleStudents.length} students eligible for housing`, 'success');
+
+            // Step 2: Filter honors students
+            updateProgress(30, 'Filtering honors students...');
+            await sleep(500);
+
+            const honorsStudents = eligibleStudents.filter(s => s.honors?.toLowerCase() === 'yes');
+            addLog(`${honorsStudents.length} honors students found`, 'success');
+
+            // Step 3: Define priority order
+            updateProgress(40, 'Sorting by priority (year)...');
+            await sleep(500);
+
+            const yearPriority = {
+                'freshman': 1,
+                'sophomore': 2,
+                'junior': 3,
+                'senior': 4
+            };
+
+            // Sort honors students by year priority
+            honorsStudents.sort((a, b) => {
+                const aPriority = yearPriority[a.year?.toLowerCase()] || 999;
+                const bPriority = yearPriority[b.year?.toLowerCase()] || 999;
+                return aPriority - bPriority;
+            });
+
+            addLog('Students sorted by priority (Freshman > Sophomore > Junior > Senior)', 'success');
+
+            // Step 4: Prepare rooms
+            updateProgress(50, 'Preparing available rooms...');
+            await sleep(500);
+
+            const availableRooms = [...rooms];
+            addLog(`${availableRooms.length} rooms available for assignment`, 'success');
+
+            // Step 5: Match students to rooms
+            updateProgress(60, 'Matching students to rooms...');
+            await sleep(500);
+
+            const matches = [];
+            const waitlist = [];
+            let roomIndex = 0;
+
+            for (let i = 0; i < honorsStudents.length; i++) {
+                const student = honorsStudents[i];
+
+                if (roomIndex < availableRooms.length) {
+                    const room = availableRooms[roomIndex];
+                    matches.push({
+                        student_id: student.student_id,
+                        name: student.name,
+                        email: student.email,
+                        year: student.year,
+                        honors: student.honors,
+                        building: room.building,
+                        room_number: room.room_number,
+                        room_type: room.room_type,
+                        floor: room.floor,
+                        capacity: room.capacity
+                    });
+
+                    addLog(`✓ Matched ${student.name} (${student.year}) → ${room.building} ${room.room_number}`, 'success');
+                    roomIndex++;
+
+                    // Update progress incrementally
+                    const matchProgress = 60 + (30 * (i + 1) / honorsStudents.length);
+                    updateProgress(Math.floor(matchProgress), `Matched ${i + 1} of ${honorsStudents.length} students...`);
+                    await sleep(100);
+                } else {
+                    waitlist.push({
+                        student_id: student.student_id,
+                        name: student.name,
+                        email: student.email,
+                        year: student.year,
+                        honors: student.honors,
+                        reason: 'No rooms available'
+                    });
+
+                    addLog(`⚠ ${student.name} (${student.year}) added to waitlist - no rooms available`, 'warning');
+                }
+            }
+
+            // Step 6: Save results
+            updateProgress(95, 'Saving results...');
+            await sleep(500);
+
+            localStorage.setItem('matches', JSON.stringify(matches));
+            localStorage.setItem('waitlist', JSON.stringify(waitlist));
+            localStorage.setItem('excluded', JSON.stringify(studentsWithHolds.map(s => ({
+                student_id: s.student_id,
+                name: s.name,
+                email: s.email,
+                year: s.year,
+                honors: s.honors,
+                reason: 'Account hold'
+            }))));
+
+            addLog('Results saved successfully', 'success');
+
+            // Step 7: Complete
+            updateProgress(100, 'Matching complete!');
+            await sleep(500);
+
+            // Show summary
+            document.getElementById('summaryGrid').style.display = 'grid';
+            document.getElementById('totalStudents').textContent = students.length;
+            document.getElementById('matchedStudents').textContent = matches.length;
+            document.getElementById('waitlistStudents').textContent = waitlist.length;
+            document.getElementById('excludedStudents').textContent = studentsWithHolds.length;
+
+            addLog(`====== MATCHING SUMMARY ======`, 'success');
+            addLog(`Total students processed: ${students.length}`, 'success');
+            addLog(`Successfully matched: ${matches.length}`, 'success');
+            addLog(`On waitlist: ${waitlist.length}`, 'warning');
+            addLog(`Excluded (holds): ${studentsWithHolds.length}`, 'warning');
+            addLog(`==============================`, 'success');
+
+            // Show completion section
+            document.getElementById('completionSection').style.display = 'block';
+        }
+
+        // Start matching on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            runMatchingAlgorithm();
+        });
+    </script>
+</body>
+</html>
